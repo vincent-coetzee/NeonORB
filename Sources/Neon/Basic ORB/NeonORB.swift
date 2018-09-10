@@ -12,8 +12,6 @@ import LoggerAPI
 
 public class NeonORB:ORB,CORBA_ORB
     {
-
-    
     public static var shared:ORB!
     
     private var primarySocket:Socket!
@@ -33,7 +31,7 @@ public class NeonORB:ORB,CORBA_ORB
     
     private var socketPool = SocketPool()
     
-    init() throws
+    public init() throws
         {
         Log.verbose("Neon ORB Version \(Neon.kVersion)")
         let (address,_) = IPV4Address.ethernetAddresses()[0]

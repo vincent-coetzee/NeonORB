@@ -7,7 +7,7 @@
 
 import Foundation
 
-public  struct Neon
+public struct Neon
     {
     internal static let kDefaultNamingServicePortNumber = 7467
     internal static let kRequestBufferSizeInBytes = 100 * 1024

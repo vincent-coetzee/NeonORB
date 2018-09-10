@@ -18,7 +18,7 @@ public class Invocation
     private var myQueue:DispatchQueue!
     private var object:ObjectStub
     
-    init(object:ObjectStub,socket:Socket)
+    public init(object:ObjectStub,socket:Socket)
         {
         self.socket = socket
         self.object = object
