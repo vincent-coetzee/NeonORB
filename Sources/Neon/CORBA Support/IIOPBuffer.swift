@@ -34,7 +34,7 @@ public class IIOPBuffer
     
     public static func bytes(forORBImplementing interfaceId:InterfaceId) -> Data
         {
-        return(IIOPMarshaller.bytes(forORBImplementing:interfaceId))
+        return(IIOPMarshaller().bytes(forORBImplementing:interfaceId))
         }
     
     init(bytes:Data)
@@ -63,6 +63,15 @@ public class IIOPBuffer
         self.offset = 0 
         }
     
+    private func grow()
+        {
+        let newSize = self.bufferSize * 5 / 3
+        let newBuffer = UnsafeMutableRawBufferPointer.allocate(byteCount: newSize, alignment: MemoryLayout<UInt>.alignment)
+        newBuffer.copyMemory(from: UnsafeRawBufferPointer(buffer))
+        buffer = newBuffer
+        bufferSize = newSize
+        }
+        
     public func rewind()
         {
         offset = 0
