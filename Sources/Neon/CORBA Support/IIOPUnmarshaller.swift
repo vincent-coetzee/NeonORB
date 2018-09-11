@@ -79,8 +79,12 @@ open class IIOPUnmarshaller:IIOPBuffer
         return(T(rawValue: rawValue)!)
         }
     
-    public func unmarshal<T>(_ type:T.Type) -> T where T:ObjectStub
+    public func unmarshal<T>(_ type:T.Type) -> T? where T:ObjectStub
         {
+        guard !self.unmarshal(Bool.self) else
+            {
+            return(nil)
+            }
         let host = self.unmarshal(String.self)
         let port = self.unmarshal(Int.self)
         let objectId = self.unmarshal(String.self)

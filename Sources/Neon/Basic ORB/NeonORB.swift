@@ -210,7 +210,10 @@ public class NeonORB:ORB,CORBA_ORB
         let marshaller = IIOPMarshaller(bufferSize:Neon.kRequestBufferSizeInBytes)
         do
             {
-            let object = unmarshaller.unmarshal(ObjectStub.self)
+            guard let object = unmarshaller.unmarshal(ObjectStub.self) else
+                {
+                throw(CORBA.ORBError.badObjectReference)
+                }
             if object.objectId == Neon.kORBObjectId
                 {
                 return(try processORBRequest(unmarshaller:unmarshaller))
