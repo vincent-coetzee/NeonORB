@@ -9,7 +9,7 @@
 import Foundation
 import Socket
 
-public class ObjectStub:CORBA_Object,Equatable
+open class ObjectStub:CORBA_Object,Equatable
     {
     public internal(set) var host:String = ""
     public internal(set) var port:Int = 0

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class BasicObjectAdaptor
+open class BasicObjectAdaptor
     {
     public var interfaceId:InterfaceId
         {

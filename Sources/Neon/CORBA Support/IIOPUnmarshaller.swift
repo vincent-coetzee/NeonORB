@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class IIOPUnmarshaller:IIOPBuffer
+open class IIOPUnmarshaller:IIOPBuffer
     {
     public override init(bytes:Data)
         {

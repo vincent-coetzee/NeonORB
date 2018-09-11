@@ -9,7 +9,7 @@
 import Foundation
 import Socket
 
-public class Invocation
+open class Invocation
     {
     private var _marshaller:IIOPMarshaller!
     private var _unmarshaller:IIOPUnmarshaller!

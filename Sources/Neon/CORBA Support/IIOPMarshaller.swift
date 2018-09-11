@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class IIOPMarshaller:IIOPBuffer
+open class IIOPMarshaller:IIOPBuffer
     {
     public var pingBytes:Data
         {

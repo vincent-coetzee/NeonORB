@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Implementation:ObjectStub
+open class Implementation:ObjectStub
     {
     public init()
         {

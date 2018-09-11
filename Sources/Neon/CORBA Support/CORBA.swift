@@ -59,7 +59,7 @@ public struct CORBA
         case invalidTypes
         }
     
-    public class Exception:Error
+    open class Exception:Error
         {
         public func marshal(on:IIOPMarshaller)
             {

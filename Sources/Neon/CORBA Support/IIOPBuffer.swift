@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class IIOPBuffer
+open class IIOPBuffer
     {
     internal var offset:Int
     internal var bufferSize:Int
