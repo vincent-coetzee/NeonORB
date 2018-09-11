@@ -61,7 +61,7 @@ public struct CORBA
     
     open class Exception:Error
         {
-        public func marshal(on:IIOPMarshaller)
+        open func marshal(on:IIOPMarshaller)
             {
             fatalError()
             }
