@@ -82,7 +82,7 @@ public struct CORBA
         public var typeCode:TypeCode = .null
         public var value:Any
         
-        init(typeCode:TypeCode,value:Any)
+        public init(typeCode:TypeCode,value:Any)
             {
             self.typeCode = typeCode
             self.value = value
