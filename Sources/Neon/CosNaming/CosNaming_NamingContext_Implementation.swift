@@ -6,7 +6,7 @@
 import Foundation
 import LoggerAPI
 
-fileprivate class NamedItemHolder
+internal class NamedItemHolder
     {
     public var isContext:Bool
         {
@@ -14,7 +14,7 @@ fileprivate class NamedItemHolder
         }
     }
 
-fileprivate class ObjectHolder:NamedItemHolder
+internal class ObjectHolder:NamedItemHolder
     {
     public var object:CORBA_Object
     
@@ -24,7 +24,7 @@ fileprivate class ObjectHolder:NamedItemHolder
         }
     }
 
-fileprivate class ContextHolder:NamedItemHolder
+internal class ContextHolder:NamedItemHolder
     {
     public var context:CosNaming_NamingContext
     
@@ -250,6 +250,8 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
     // 
     public func list(how_many: UInt32,binding_list:inout CosNaming_BindingList,binding_iterator:inout CosNaming_BindingIterator) throws -> Void
         {
+        let iterator = CosNaming_BindingIterator_Implementation()
+        iterator.entries = entries
         }
     
     }

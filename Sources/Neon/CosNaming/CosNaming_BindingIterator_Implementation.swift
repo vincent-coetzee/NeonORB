@@ -7,6 +7,9 @@ import Foundation
 
 public class CosNaming_BindingIterator_Implementation:Implementation,CosNaming_BindingIterator
     {
+    internal var entries:[String:NamedItemHolder] = [:]
+    internal var index:Int = 0
+    
     public override init()
         {
         super.init()
@@ -25,9 +28,7 @@ public class CosNaming_BindingIterator_Implementation:Implementation,CosNaming_B
     // 
     public func destroy() throws -> Void
         {
-        //
-        // Put your implementation here
-        //
+        CORBA.orb.deregisterImplementation(self)
         }
     
     // 
@@ -39,7 +40,8 @@ public class CosNaming_BindingIterator_Implementation:Implementation,CosNaming_B
     // 
     public func next_one(b:inout CosNaming_Binding) throws -> Bool
         {
-        return(false)
+        
+        let binding = CosNaming_Binding(binding_name: [CosNaming_NameComponent(id:, binding_type: <#T##CosNaming_BindingType#>
         }
     
     }
