@@ -17,12 +17,12 @@ open class ObjectStub:CORBA_Object,Equatable
     public var orb:ORB = CORBA.orb
     public var interfaceId:InterfaceId
     
-    public class func interfaceId() -> InterfaceId
+    open class func interfaceId() -> InterfaceId
         {
         return("CORBA::Object")
         }
     
-    public static func ==(lhs:ObjectStub,rhs:ObjectStub) -> Bool
+    open static func ==(lhs:ObjectStub,rhs:ObjectStub) -> Bool
         {
         guard lhs.host == rhs.host else 
             {
@@ -60,7 +60,7 @@ open class ObjectStub:CORBA_Object,Equatable
         self.interfaceId = implementation.interfaceId
         }
     
-    public func marshal(on marshaller:IIOPMarshaller) throws
+    open func marshal(on marshaller:IIOPMarshaller) throws
         {
         marshaller.marshal(host)
         marshaller.marshal(port)
@@ -68,7 +68,7 @@ open class ObjectStub:CORBA_Object,Equatable
         marshaller.marshal(interfaceId)
         }
     
-    public func narrow<T:ObjectStub>(_ type:T.Type) throws -> T
+    open func narrow<T:ObjectStub>(_ type:T.Type) throws -> T
         {
         let targetId = type.interfaceId()
         let thisId = self.interfaceId
@@ -79,7 +79,7 @@ open class ObjectStub:CORBA_Object,Equatable
         return(T(host:self.host,port:self.port,objectId:self.objectId,interfaceId:targetId))
         }
     
-    public func invocation(forOperation operationId:String) -> Invocation
+    open func invocation(forOperation operationId:String) -> Invocation
         {
         do
             {

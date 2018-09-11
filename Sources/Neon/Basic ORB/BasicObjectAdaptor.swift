@@ -10,7 +10,7 @@ import Foundation
 
 open class BasicObjectAdaptor
     {
-    public var interfaceId:InterfaceId
+    open var interfaceId:InterfaceId
         {
         return(InterfaceId("CORBA::Object"))
         }
@@ -19,17 +19,17 @@ open class BasicObjectAdaptor
         {
         }
     
-    public func createInstance() -> CORBA_Object
+    open func createInstance() -> CORBA_Object
         {
         return(Implementation())
         }
     
-    public func respondsTo(operation:String) -> Bool
+    open func respondsTo(operation:String) -> Bool
         {
         return(false)
         }
     
-    public func invoke(operation:String,on instance:Implementation,outof unmarshaller:IIOPUnmarshaller,into marshaller:IIOPMarshaller) throws
+    open func invoke(operation:String,on instance:Implementation,outof unmarshaller:IIOPUnmarshaller,into marshaller:IIOPMarshaller) throws
         {
         }
     }

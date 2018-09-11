@@ -20,11 +20,15 @@ open class Implementation:ObjectStub
         super.init(host:host,port:port,objectId:objectId,interfaceId:interfaceId)
         }
     
-    public func deactivateObject()
+    open func activateObject()
+        {
+        }
+        
+    open func deactivateObject()
         {
         }
     
-    public func destroyObject()
+    open func destroyObject()
         {
         }
     }
