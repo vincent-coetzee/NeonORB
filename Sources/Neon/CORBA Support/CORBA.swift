@@ -36,12 +36,30 @@ public struct CORBA
         case unknown
         }
     
-    public enum TypeCode:Int
+    public enum TypeCode:String
         {
-        case null = 0
-        case exception = 1
-        case `struct` = 2
-        case `enum` = 3
+        case null
+        case exception
+        case `struct`
+        case `enum`
+        case union
+        case short
+        case unsignedshort
+        case long
+        case unsignedlong
+        case longlong
+        case unsignedlonglong
+        case float
+        case double
+        case interface
+        case octet
+        case char
+        case string
+        case wchar
+        case wstring
+        case boolean
+        case any
+        case void
         }
     
     public enum ORBError:Int,Error
