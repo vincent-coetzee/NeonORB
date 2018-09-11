@@ -36,7 +36,7 @@ public struct CORBA
         case unknown
         }
     
-    public enum TypeCode:String
+    public enum TypeCode:Int
         {
         case null
         case exception
@@ -75,6 +75,18 @@ public struct CORBA
         case badMessage
         case invocationTimeout
         case invalidTypes
+        }
+    
+    public struct IDLAny
+        {
+        public var typeCode:TypeCode = .null
+        public var value:Any
+        
+        init(typeCode:TypeCode,value:Any)
+            {
+            self.typeCode = typeCode
+            self.value = value
+            }
         }
     
     open class Exception:Error

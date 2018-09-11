@@ -104,6 +104,11 @@ open class IIOPMarshaller:IIOPBuffer
         value.marshal(on:self)
         }
     
+    public func marshal(_ value:CORBA.IDLAny)
+        {
+        fatalError()
+        }
+    
     public func marshal<T>(_ value:T,atOffset:Int? = nil) where T:RawRepresentable,T.RawValue == Int
         {
         marshal(value.rawValue)

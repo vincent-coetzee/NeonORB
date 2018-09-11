@@ -96,7 +96,12 @@ open class IIOPUnmarshaller:IIOPBuffer
         {
         return(())
         }
-        
+    
+    public func unmarshal(_ type:CORBA.IDLAny.Type) -> CORBA.IDLAny
+        {
+        fatalError()
+        }
+    
     public func unmarshal(_ value:CORBA_Object.Protocol) -> CORBA_Object?
         {
         if self.unmarshal(Bool.self)
