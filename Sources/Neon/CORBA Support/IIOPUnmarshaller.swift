@@ -93,8 +93,12 @@ public class IIOPUnmarshaller:IIOPBuffer
         return(())
         }
         
-    public func unmarshal(_ value:CORBA_Object.Protocol) -> CORBA_Object
+    public func unmarshal(_ value:CORBA_Object.Protocol) -> CORBA_Object?
         {
+        if self.unmarshal(Bool.self)
+            {
+            return(nil)
+            }
         let host = self.unmarshal(String.self)
         let port = self.unmarshal(Int.self)
         let objectId = self.unmarshal(String.self)

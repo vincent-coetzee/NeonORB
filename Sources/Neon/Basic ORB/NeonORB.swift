@@ -85,6 +85,13 @@ public class NeonORB:ORB,CORBA_ORB
         registeredImplementations = [:]
         }
     
+    public func materialize(object:CORBA_Object) -> Implementation?
+        {
+        let id = object.objectId
+        let implementation = registeredImplementations[id]
+        return(implementation)
+        }
+        
     private func service(clientConnection:Socket)
         {
         while true
@@ -179,8 +186,12 @@ public class NeonORB:ORB,CORBA_ORB
             }
         }
     
-    public func destroy(object:CORBA_Object) throws
+    public func destroy(object:CORBA_Object?) throws
         {
+        guard let object = object else
+            {
+            return
+            }
         guard let realObject = registeredImplementations[object.objectId] else
             {
             throw(CORBA_ORB_NotFound())
@@ -189,7 +200,7 @@ public class NeonORB:ORB,CORBA_ORB
         realObject.destroyObject()
         }
     
-    public func create(interfaceId:String) throws -> CORBA_Object
+    public func create(interfaceId:String) throws -> CORBA_Object?
         {
         return(Implementation())
         }

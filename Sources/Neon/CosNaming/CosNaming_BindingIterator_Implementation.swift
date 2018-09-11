@@ -40,8 +40,7 @@ public class CosNaming_BindingIterator_Implementation:Implementation,CosNaming_B
     // 
     public func next_one(b:inout CosNaming_Binding) throws -> Bool
         {
-        
-        let binding = CosNaming_Binding(binding_name: [CosNaming_NameComponent(id:, binding_type: <#T##CosNaming_BindingType#>
+        return(false)
         }
     
     }

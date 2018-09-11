@@ -6,24 +6,24 @@ public protocol CosNaming_NamingContext:CORBA_Object
     {
     
     
-    func list(how_many: UInt32,binding_list:inout CosNaming_BindingList,binding_iterator:inout CosNaming_BindingIterator) throws -> Void
+    func rebind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext?) throws -> Void
     
-    func resolve(n: CosNaming_Name) throws -> CORBA_Object
+    func bind_new_context(n: CosNaming_Name) throws -> CosNaming_NamingContext?
     
-    func new_context() throws -> CosNaming_NamingContext
+    func bind(n: CosNaming_Name,object: CORBA_Object?) throws -> Void
     
     func unbind(n: CosNaming_Name) throws -> Void
     
-    func bind_new_context(n: CosNaming_Name) throws -> CosNaming_NamingContext
+    func rebind(n: CosNaming_Name,object: CORBA_Object?) throws -> Void
+    
+    func list(how_many: UInt32,binding_list:inout CosNaming_BindingList,binding_iterator:inout CosNaming_BindingIterator?) throws -> Void
     
     func destroy() throws -> Void
     
-    func rebind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext) throws -> Void
+    func bind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext?) throws -> Void
     
-    func rebind(n: CosNaming_Name,object: CORBA_Object) throws -> Void
+    func new_context() throws -> CosNaming_NamingContext?
     
-    func bind(n: CosNaming_Name,object: CORBA_Object) throws -> Void
-    
-    func bind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext) throws -> Void
+    func resolve(n: CosNaming_Name) throws -> CORBA_Object?
     
     }

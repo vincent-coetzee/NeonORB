@@ -23,16 +23,16 @@ public class CosNaming_NamingContextExt_BOA:CosNaming_NamingContext_BOA
             {
             
             
-            case "to_string":
-                return(true)
-            
-            case "to_name":
+            case "to_url":
                 return(true)
             
             case "resolve_str":
                 return(true)
             
-            case "to_url":
+            case "to_name":
+                return(true)
+            
+            case "to_string":
                 return(true)
             
             default:
@@ -48,16 +48,41 @@ public class CosNaming_NamingContextExt_BOA:CosNaming_NamingContext_BOA
             {
             
             
-            case "to_string":
+            case "to_url":
                 
                 
                     
-                    let name = unmarshaller.unmarshal(CosNaming_Name.self)
+                    let address = unmarshaller.unmarshal(CosNaming_Address.self)
                     
                 
                 
                 
-                let invocation_result = try instance.to_string(name:name)
+                    
+                    let name = unmarshaller.unmarshal(CosNaming_StringName.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.to_url(address:address,name:name)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "resolve_str":
+                
+                
+                    
+                    let name = unmarshaller.unmarshal(CosNaming_StringName.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.resolve_str(name:name)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 
@@ -82,43 +107,18 @@ public class CosNaming_NamingContextExt_BOA:CosNaming_NamingContext_BOA
                 
                 marshaller.marshal(invocation_result)
             
-            case "resolve_str":
+            case "to_string":
                 
                 
                     
-                    let name = unmarshaller.unmarshal(CosNaming_StringName.self)
+                    let name = unmarshaller.unmarshal(CosNaming_Name.self)
                     
                 
                 
                 
-                let invocation_result = try instance.resolve_str(name:name)
+                let invocation_result = try instance.to_string(name:name)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                marshaller.marshal(invocation_result)
-            
-            case "to_url":
-                
-                
-                    
-                    let address = unmarshaller.unmarshal(CosNaming_Address.self)
-                    
-                
-                
-                
-                    
-                    let name = unmarshaller.unmarshal(CosNaming_StringName.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.to_url(address:address,name:name)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
                 
                 
                 

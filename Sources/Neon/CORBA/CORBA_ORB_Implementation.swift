@@ -24,7 +24,7 @@ public class CORBA_ORB_Implementation:Implementation,CORBA_ORB
     
     
     // NotFound,NotPermitted
-    public func destroy(object: CORBA_Object) throws -> Void
+    public func destroy(object: CORBA_Object?) throws -> Void
         {
         //
         // Put your implementation here
@@ -32,7 +32,7 @@ public class CORBA_ORB_Implementation:Implementation,CORBA_ORB
         }
     
     // NotFound,NotPermitted
-    public func create(interfaceId: String) throws -> CORBA_Object
+    public func create(interfaceId: String) throws -> CORBA_Object?
         {
         return(Implementation())
         }

@@ -41,8 +41,8 @@ public class CORBA_ORB_Interface:ObjectStub,CORBA_ORB
         }
         
     
-    // [["interfaceId": "CORBA::ORB::NotFound", "name": "CORBA_ORB_NotFound"], ["interfaceId": "CORBA::ORB::NotPermitted", "name": "CORBA_ORB_NotPermitted"]]
-    public func destroy(object: CORBA_Object) throws -> Void
+    // [["name": "CORBA_ORB_NotFound", "interfaceId": "CORBA::ORB::NotFound"], ["name": "CORBA_ORB_NotPermitted", "interfaceId": "CORBA::ORB::NotPermitted"]]
+    public func destroy(object: CORBA_Object?) throws -> Void
         {
         let invocation = self.invocation(forOperation: "destroy")
         let marshaller = invocation.marshaller()
@@ -85,8 +85,8 @@ public class CORBA_ORB_Interface:ObjectStub,CORBA_ORB
         return(invocation.unmarshaller().unmarshal(Void.self))
         }
     
-    // [["interfaceId": "CORBA::ORB::NotFound", "name": "CORBA_ORB_NotFound"], ["interfaceId": "CORBA::ORB::NotPermitted", "name": "CORBA_ORB_NotPermitted"]]
-    public func create(interfaceId: String) throws -> CORBA_Object
+    // [["name": "CORBA_ORB_NotFound", "interfaceId": "CORBA::ORB::NotFound"], ["name": "CORBA_ORB_NotPermitted", "interfaceId": "CORBA::ORB::NotPermitted"]]
+    public func create(interfaceId: String) throws -> CORBA_Object?
         {
         let invocation = self.invocation(forOperation: "create")
         let marshaller = invocation.marshaller()
@@ -139,8 +139,13 @@ public class CORBA_ORB_Interface:ObjectStub,CORBA_ORB
 //
 extension IIOPUnmarshaller
     {
-    public func unmarshal(_ value: CORBA_ORB.Protocol) -> CORBA_ORB
+    public func unmarshal(_ value: CORBA_ORB.Protocol) -> CORBA_ORB?
         {
+        let isNil = self.unmarshal(Bool.self)
+        if isNil
+            {
+            return(nil)
+            }
         let host = self.unmarshal(String.self)
         let port = self.unmarshal(Int.self)
         let objectId = self.unmarshal(String.self)
@@ -151,8 +156,14 @@ extension IIOPUnmarshaller
 
 extension IIOPMarshaller
     {
-    public func marshal(_ value: CORBA_ORB)
+    public func marshal(_ value: CORBA_ORB?)
         {
+        guard let value = value else
+            {
+            self.marshal(true)
+            return
+            }
+        self.marshal(false)
         self.marshal(value.host)
         self.marshal(value.port)
         self.marshal(value.objectId)

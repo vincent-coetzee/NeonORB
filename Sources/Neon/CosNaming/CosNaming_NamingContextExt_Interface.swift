@@ -41,135 +41,7 @@ public class CosNaming_NamingContextExt_Interface:CosNaming_NamingContext_Interf
         }
         
     
-    // [["interfaceId": "CosNaming::NamingContext::InvalidName", "name": "CosNaming_NamingContext_InvalidName"]]
-    public func to_string(name: CosNaming_Name) throws -> CosNaming_StringName
-        {
-        let invocation = self.invocation(forOperation: "to_string")
-        let marshaller = invocation.marshaller()
-        
-            
-            marshaller.marshal(name)
-            
-        
-        try invocation.invoke(expect: .response)
-        let unmarshaller = invocation.unmarshaller()
-        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
-        switch(resultKind)
-            {
-            case .systemException:
-                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
-            case .corbaException:
-                
-                let exceptionId = unmarshaller.unmarshal(String.self)
-                switch(exceptionId)
-                    {
-                    
-                    case "CosNaming::NamingContext::InvalidName":
-                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_InvalidName.self)
-                        throw(error)
-                    
-                    default:
-                        break
-                    }
-                
-            default:
-                break
-            }
-        
-            
-        
-        return(invocation.unmarshaller().unmarshal(CosNaming_StringName.self))
-        }
-    
-    // [["interfaceId": "CosNaming::NamingContext::InvalidName", "name": "CosNaming_NamingContext_InvalidName"]]
-    public func to_name(stringName: CosNaming_StringName) throws -> CosNaming_Name
-        {
-        let invocation = self.invocation(forOperation: "to_name")
-        let marshaller = invocation.marshaller()
-        
-            
-            marshaller.marshal(stringName)
-            
-        
-        try invocation.invoke(expect: .response)
-        let unmarshaller = invocation.unmarshaller()
-        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
-        switch(resultKind)
-            {
-            case .systemException:
-                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
-            case .corbaException:
-                
-                let exceptionId = unmarshaller.unmarshal(String.self)
-                switch(exceptionId)
-                    {
-                    
-                    case "CosNaming::NamingContext::InvalidName":
-                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_InvalidName.self)
-                        throw(error)
-                    
-                    default:
-                        break
-                    }
-                
-            default:
-                break
-            }
-        
-            
-        
-        return(invocation.unmarshaller().unmarshal(CosNaming_Name.self))
-        }
-    
-    // [["interfaceId": "CosNaming::NamingContext::NotFound", "name": "CosNaming_NamingContext_NotFound"], ["interfaceId": "CosNaming::NamingContext::CannotProceed", "name": "CosNaming_NamingContext_CannotProceed"], ["interfaceId": "CosNaming::NamingContext::InvalidName", "name": "CosNaming_NamingContext_InvalidName"]]
-    public func resolve_str(name: CosNaming_StringName) throws -> CORBA_Object
-        {
-        let invocation = self.invocation(forOperation: "resolve_str")
-        let marshaller = invocation.marshaller()
-        
-            
-            marshaller.marshal(name)
-            
-        
-        try invocation.invoke(expect: .response)
-        let unmarshaller = invocation.unmarshaller()
-        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
-        switch(resultKind)
-            {
-            case .systemException:
-                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
-            case .corbaException:
-                
-                let exceptionId = unmarshaller.unmarshal(String.self)
-                switch(exceptionId)
-                    {
-                    
-                    case "CosNaming::NamingContext::NotFound":
-                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_NotFound.self)
-                        throw(error)
-                    
-                    case "CosNaming::NamingContext::CannotProceed":
-                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_CannotProceed.self)
-                        throw(error)
-                    
-                    case "CosNaming::NamingContext::InvalidName":
-                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_InvalidName.self)
-                        throw(error)
-                    
-                    default:
-                        break
-                    }
-                
-            default:
-                break
-            }
-        
-            
-        
-        return(invocation.unmarshaller().unmarshal(CORBA_Object.self))
-        }
-    
-    // [["interfaceId": "CosNaming::InvalidAddress", "name": "CosNaming_InvalidAddress"], ["interfaceId": "CosNaming::NamingContext::InvalidName", "name": "CosNaming_NamingContext_InvalidName"]]
+    // [["name": "CosNaming_InvalidAddress", "interfaceId": "CosNaming::InvalidAddress"], ["name": "CosNaming_NamingContext_InvalidName", "interfaceId": "CosNaming::NamingContext::InvalidName"]]
     public func to_url(address: CosNaming_Address,name: CosNaming_StringName) throws -> CosNaming_URLString
         {
         let invocation = self.invocation(forOperation: "to_url")
@@ -219,6 +91,134 @@ public class CosNaming_NamingContextExt_Interface:CosNaming_NamingContext_Interf
         return(invocation.unmarshaller().unmarshal(CosNaming_URLString.self))
         }
     
+    // [["name": "CosNaming_NamingContext_NotFound", "interfaceId": "CosNaming::NamingContext::NotFound"], ["name": "CosNaming_NamingContext_CannotProceed", "interfaceId": "CosNaming::NamingContext::CannotProceed"], ["name": "CosNaming_NamingContext_InvalidName", "interfaceId": "CosNaming::NamingContext::InvalidName"]]
+    public func resolve_str(name: CosNaming_StringName) throws -> CORBA_Object?
+        {
+        let invocation = self.invocation(forOperation: "resolve_str")
+        let marshaller = invocation.marshaller()
+        
+            
+            marshaller.marshal(name)
+            
+        
+        try invocation.invoke(expect: .response)
+        let unmarshaller = invocation.unmarshaller()
+        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
+        switch(resultKind)
+            {
+            case .systemException:
+                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
+            case .corbaException:
+                
+                let exceptionId = unmarshaller.unmarshal(String.self)
+                switch(exceptionId)
+                    {
+                    
+                    case "CosNaming::NamingContext::NotFound":
+                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_NotFound.self)
+                        throw(error)
+                    
+                    case "CosNaming::NamingContext::CannotProceed":
+                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_CannotProceed.self)
+                        throw(error)
+                    
+                    case "CosNaming::NamingContext::InvalidName":
+                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_InvalidName.self)
+                        throw(error)
+                    
+                    default:
+                        break
+                    }
+                
+            default:
+                break
+            }
+        
+            
+        
+        return(invocation.unmarshaller().unmarshal(CORBA_Object.self))
+        }
+    
+    // [["name": "CosNaming_NamingContext_InvalidName", "interfaceId": "CosNaming::NamingContext::InvalidName"]]
+    public func to_name(stringName: CosNaming_StringName) throws -> CosNaming_Name
+        {
+        let invocation = self.invocation(forOperation: "to_name")
+        let marshaller = invocation.marshaller()
+        
+            
+            marshaller.marshal(stringName)
+            
+        
+        try invocation.invoke(expect: .response)
+        let unmarshaller = invocation.unmarshaller()
+        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
+        switch(resultKind)
+            {
+            case .systemException:
+                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
+            case .corbaException:
+                
+                let exceptionId = unmarshaller.unmarshal(String.self)
+                switch(exceptionId)
+                    {
+                    
+                    case "CosNaming::NamingContext::InvalidName":
+                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_InvalidName.self)
+                        throw(error)
+                    
+                    default:
+                        break
+                    }
+                
+            default:
+                break
+            }
+        
+            
+        
+        return(invocation.unmarshaller().unmarshal(CosNaming_Name.self))
+        }
+    
+    // [["name": "CosNaming_NamingContext_InvalidName", "interfaceId": "CosNaming::NamingContext::InvalidName"]]
+    public func to_string(name: CosNaming_Name) throws -> CosNaming_StringName
+        {
+        let invocation = self.invocation(forOperation: "to_string")
+        let marshaller = invocation.marshaller()
+        
+            
+            marshaller.marshal(name)
+            
+        
+        try invocation.invoke(expect: .response)
+        let unmarshaller = invocation.unmarshaller()
+        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
+        switch(resultKind)
+            {
+            case .systemException:
+                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
+            case .corbaException:
+                
+                let exceptionId = unmarshaller.unmarshal(String.self)
+                switch(exceptionId)
+                    {
+                    
+                    case "CosNaming::NamingContext::InvalidName":
+                        let error = unmarshaller.unmarshal(CosNaming_NamingContext_InvalidName.self)
+                        throw(error)
+                    
+                    default:
+                        break
+                    }
+                
+            default:
+                break
+            }
+        
+            
+        
+        return(invocation.unmarshaller().unmarshal(CosNaming_StringName.self))
+        }
+    
     }
 
 
@@ -229,8 +229,13 @@ public class CosNaming_NamingContextExt_Interface:CosNaming_NamingContext_Interf
 //
 extension IIOPUnmarshaller
     {
-    public func unmarshal(_ value: CosNaming_NamingContextExt.Protocol) -> CosNaming_NamingContextExt
+    public func unmarshal(_ value: CosNaming_NamingContextExt.Protocol) -> CosNaming_NamingContextExt?
         {
+        let isNil = self.unmarshal(Bool.self)
+        if isNil
+            {
+            return(nil)
+            }
         let host = self.unmarshal(String.self)
         let port = self.unmarshal(Int.self)
         let objectId = self.unmarshal(String.self)
@@ -241,8 +246,14 @@ extension IIOPUnmarshaller
 
 extension IIOPMarshaller
     {
-    public func marshal(_ value: CosNaming_NamingContextExt)
+    public func marshal(_ value: CosNaming_NamingContextExt?)
         {
+        guard let value = value else
+            {
+            self.marshal(true)
+            return
+            }
+        self.marshal(false)
         self.marshal(value.host)
         self.marshal(value.port)
         self.marshal(value.objectId)

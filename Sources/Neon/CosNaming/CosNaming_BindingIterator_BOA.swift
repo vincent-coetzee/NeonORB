@@ -23,13 +23,13 @@ public class CosNaming_BindingIterator_BOA:BasicObjectAdaptor
             {
             
             
+            case "next_n":
+                return(true)
+            
             case "destroy":
                 return(true)
             
             case "next_one":
-                return(true)
-            
-            case "next_n":
                 return(true)
             
             default:
@@ -44,36 +44,6 @@ public class CosNaming_BindingIterator_BOA:BasicObjectAdaptor
         switch(operation)
             {
             
-            
-            case "destroy":
-                
-                
-                let invocation_result = try instance.destroy()
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                marshaller.marshal(invocation_result)
-            
-            case "next_one":
-                
-                
-                    
-                        
-                            var b:CosNaming_Binding!
-                        
-                    
-                
-                
-                
-                let invocation_result = try instance.next_one(b:&b)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                marshaller.marshal(b)
-                
-                
-                marshaller.marshal(invocation_result)
             
             case "next_n":
                 
@@ -100,6 +70,36 @@ public class CosNaming_BindingIterator_BOA:BasicObjectAdaptor
                 
                 
                 marshaller.marshal(binding_list)
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "destroy":
+                
+                
+                let invocation_result:Void = try instance.destroy()
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                marshaller.marshal(invocation_result)
+            
+            case "next_one":
+                
+                
+                    
+                        
+                            var b:CosNaming_Binding!
+                        
+                    
+                
+                
+                
+                let invocation_result = try instance.next_one(b:&b)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                marshaller.marshal(b)
                 
                 
                 marshaller.marshal(invocation_result)

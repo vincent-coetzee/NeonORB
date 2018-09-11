@@ -5,13 +5,13 @@
 public class CosNaming_NamingContext_CannotProceed:CORBA.Exception
     {
     
-        var cxt:CosNaming_NamingContext
+        var cxt:CosNaming_NamingContext?
     
         var rest_of_name:CosNaming_Name
     
 
     
-    public init(cxt:CosNaming_NamingContext,rest_of_name:CosNaming_Name)
+    public init(cxt:CosNaming_NamingContext?,rest_of_name:CosNaming_Name)
         {
         
         self.cxt = cxt

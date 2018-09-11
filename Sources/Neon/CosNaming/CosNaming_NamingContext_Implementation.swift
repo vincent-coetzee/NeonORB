@@ -45,6 +45,7 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
     
     private var name:String = ""
     private var entries:[String:NamedItemHolder] = [:]
+    private var parentContext:CosNaming_NamingContext_Implementation?
     
     public override init()
         {
@@ -54,7 +55,18 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         CORBA.orb.registerImplementation(self,forObjectId: self.objectId)
         }
 
-    public required override init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
+    private var compoundName:[String] 
+        {
+        if parentContext == nil
+            {
+            return([])
+            }
+        var theName = parentContext!.compoundName
+        theName.append(self.name)
+        return(theName)
+        }
+        
+    public required init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
         {
         super.init(host:host,port:port,objectId:objectId,interfaceId:interfaceId)
         }
@@ -65,7 +77,7 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         }
     
     // NotFound,CannotProceed,InvalidName
-    public func resolve(n: CosNaming_Name) throws -> CORBA_Object
+    public func resolve(n: CosNaming_Name) throws -> CORBA_Object?
         {
         Log.verbose("Resolve(\(nameAsString(name:n)))")
         guard n.count > 0 else
@@ -103,8 +115,13 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         }
 
     // NotFound,CannotProceed,InvalidName,AlreadyBound
-    public func bind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext) throws -> Void
+    public func bind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext?) throws -> Void
         {
+        guard let naming_context = naming_context else
+            {
+            Log.error("naming_context passed into bind_context is nil \(n)")
+            throw(CosNaming_NamingContext_CannotProceed(cxt: self, rest_of_name: n))
+            }
         Log.verbose("Bind_context(\(nameAsString(name:n)))")
         guard n.count > 0 else
             {
@@ -114,7 +131,8 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         if n.count == 1
             {
             entries[first] = ContextHolder(context:naming_context)
-            return
+            let actualContext = (CORBA.orb as! NeonORB).materialize(object:naming_context) as! CosNaming_NamingContext_Implementation
+            actualContext.parentContext = self
             }
         else
             {
@@ -130,15 +148,16 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         }
     
     // 
-    public func new_context() throws -> CosNaming_NamingContext
+    public func new_context() throws -> CosNaming_NamingContext?
         {
         return(CosNaming_NamingContext_Implementation())
         }
     
     // NotFound,AlreadyBound,CannotProceed,InvalidName
-    public func bind_new_context(n: CosNaming_Name) throws -> CosNaming_NamingContext
+    public func bind_new_context(n: CosNaming_Name) throws -> CosNaming_NamingContext?
         {
         let context = CosNaming_NamingContext_Implementation()
+        context.parentContext = self
         try self.bind_context(n:n,naming_context:context)
         return(context)
         }
@@ -169,8 +188,13 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
             }
         }
     // NotFound,CannotProceed,InvalidName,AlreadyBound
-    public func bind(n: CosNaming_Name,object: CORBA_Object) throws -> Void
+    public func bind(n: CosNaming_Name,object: CORBA_Object?) throws -> Void
         {
+        guard let object = object else
+            {
+            Log.error("Object passed into bind is nil \(n)")
+            throw(CosNaming_NamingContext_CannotProceed(cxt: self, rest_of_name: n))
+            }
         Log.verbose("Bind(\(nameAsString(name:n)))")
         guard n.count > 0 else
             {
@@ -202,8 +226,13 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         }
     
     // NotFound,CannotProceed,InvalidName
-    public func rebind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext) throws -> Void
+    public func rebind_context(n: CosNaming_Name,naming_context: CosNaming_NamingContext?) throws -> Void
         {
+        guard let naming_context = naming_context else
+            {
+            Log.error("naming_context in rebind_context is nil \(n)")
+            throw(CosNaming_NamingContext_CannotProceed(cxt: self, rest_of_name: n))
+            }
         guard n.count > 0 else
             {
             throw(CosNaming_NamingContext_NotFound(why: .missing_node, rest_of_name: n))
@@ -212,6 +241,8 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         if n.count == 1
             {
             entries[first] = ContextHolder(context:naming_context)
+            let actualContext = (CORBA.orb as! NeonORB).materialize(object:naming_context) as! CosNaming_NamingContext_Implementation
+            actualContext.parentContext = self
             return
             }
         else
@@ -225,8 +256,13 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         }
     
     // NotFound,CannotProceed,InvalidName
-    public func rebind(n: CosNaming_Name,object: CORBA_Object) throws -> Void
+    public func rebind(n: CosNaming_Name,object: CORBA_Object?) throws -> Void
         {
+        guard let object = object else
+            {
+            Log.error("Object passed into rebind is nil \(n)")
+            throw(CosNaming_NamingContext_CannotProceed(cxt: self, rest_of_name: n))
+            }
         guard n.count > 0 else
             {
             throw(CosNaming_NamingContext_NotFound(why: .missing_node, rest_of_name: n))
@@ -248,10 +284,18 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         }
     
     // 
-    public func list(how_many: UInt32,binding_list:inout CosNaming_BindingList,binding_iterator:inout CosNaming_BindingIterator) throws -> Void
+    public func list(how_many: UInt32,binding_list:inout CosNaming_BindingList,binding_iterator:inout CosNaming_BindingIterator?) throws -> Void
         {
-        let iterator = CosNaming_BindingIterator_Implementation()
-        iterator.entries = entries
+        var list:[CosNaming_Binding] = []
+        for (key,entry) in entries
+            {
+            let bindingName = self.compoundName.appending(key).asCosName()
+            let bindingType = entry.isContext ? CosNaming_BindingType.ncontext : CosNaming_BindingType.nobject
+            let bindingEntry = CosNaming_Binding(binding_name: bindingName, binding_type: bindingType)
+            list.append(bindingEntry)
+            }
+        binding_list = list
+        binding_iterator = nil
         }
     
     }

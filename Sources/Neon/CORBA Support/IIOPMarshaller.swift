@@ -109,8 +109,14 @@ public class IIOPMarshaller:IIOPBuffer
         marshal(value.rawValue)
         }
     
-    public func marshal(_ reference:CORBA_Object)
+    public func marshal(_ reference:CORBA_Object?)
         {
+        guard let reference = reference else
+            {
+            self.marshal(true)
+            return
+            }
+        self.marshal(false)
         self.marshal(reference.host)
         self.marshal(reference.port)
         self.marshal(reference.objectId)

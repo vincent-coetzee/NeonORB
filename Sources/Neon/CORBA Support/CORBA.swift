@@ -76,4 +76,11 @@ extension Array where Element == String
         {
         return(self.map{CosNaming_NameComponent(id:$0,kind:"")})
         }
+        
+    public func appending(_ element:Element) -> Array<Element>
+        {
+        var newArray = self
+        newArray.append(element)
+        return(newArray)
+        }
     }

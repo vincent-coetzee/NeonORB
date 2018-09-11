@@ -23,7 +23,7 @@ public class CosNaming_NamingContextExt_Implementation:CosNaming_NamingContext_I
     
     
     // NotFound,CannotProceed,InvalidName
-    public func resolve_str(name: CosNaming_StringName) throws -> CORBA_Object
+    public func resolve_str(name: CosNaming_StringName) throws -> CORBA_Object?
         {
         return(Implementation())
         }

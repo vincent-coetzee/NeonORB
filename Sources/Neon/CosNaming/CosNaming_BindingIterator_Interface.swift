@@ -42,6 +42,42 @@ public class CosNaming_BindingIterator_Interface:ObjectStub,CosNaming_BindingIte
         
     
     // []
+    public func next_n(how_many: UInt32,binding_list:inout CosNaming_BindingList) throws -> Bool
+        {
+        let invocation = self.invocation(forOperation: "next_n")
+        let marshaller = invocation.marshaller()
+        
+            
+            marshaller.marshal(how_many)
+            
+        
+            
+        
+        try invocation.invoke(expect: .response)
+        let unmarshaller = invocation.unmarshaller()
+        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
+        switch(resultKind)
+            {
+            case .systemException:
+                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
+            case .corbaException:
+                
+                break
+                
+            default:
+                break
+            }
+        
+            
+        
+            
+                binding_list = unmarshaller.unmarshal(CosNaming_BindingList.self)
+            
+        
+        return(invocation.unmarshaller().unmarshal(Bool.self))
+        }
+    
+    // []
     public func destroy() throws -> Void
         {
         let invocation = self.invocation(forOperation: "destroy")
@@ -95,42 +131,6 @@ public class CosNaming_BindingIterator_Interface:ObjectStub,CosNaming_BindingIte
         return(invocation.unmarshaller().unmarshal(Bool.self))
         }
     
-    // []
-    public func next_n(how_many: UInt32,binding_list:inout CosNaming_BindingList) throws -> Bool
-        {
-        let invocation = self.invocation(forOperation: "next_n")
-        let marshaller = invocation.marshaller()
-        
-            
-            marshaller.marshal(how_many)
-            
-        
-            
-        
-        try invocation.invoke(expect: .response)
-        let unmarshaller = invocation.unmarshaller()
-        let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
-        switch(resultKind)
-            {
-            case .systemException:
-                throw(CORBA.ORBError(rawValue: unmarshaller.unmarshal(Int.self))!)
-            case .corbaException:
-                
-                break
-                
-            default:
-                break
-            }
-        
-            
-        
-            
-                binding_list = unmarshaller.unmarshal(CosNaming_BindingList.self)
-            
-        
-        return(invocation.unmarshaller().unmarshal(Bool.self))
-        }
-    
     }
 
 
@@ -141,8 +141,13 @@ public class CosNaming_BindingIterator_Interface:ObjectStub,CosNaming_BindingIte
 //
 extension IIOPUnmarshaller
     {
-    public func unmarshal(_ value: CosNaming_BindingIterator.Protocol) -> CosNaming_BindingIterator
+    public func unmarshal(_ value: CosNaming_BindingIterator.Protocol) -> CosNaming_BindingIterator?
         {
+        let isNil = self.unmarshal(Bool.self)
+        if isNil
+            {
+            return(nil)
+            }
         let host = self.unmarshal(String.self)
         let port = self.unmarshal(Int.self)
         let objectId = self.unmarshal(String.self)
@@ -153,8 +158,14 @@ extension IIOPUnmarshaller
 
 extension IIOPMarshaller
     {
-    public func marshal(_ value: CosNaming_BindingIterator)
+    public func marshal(_ value: CosNaming_BindingIterator?)
         {
+        guard let value = value else
+            {
+            self.marshal(true)
+            return
+            }
+        self.marshal(false)
         self.marshal(value.host)
         self.marshal(value.port)
         self.marshal(value.objectId)

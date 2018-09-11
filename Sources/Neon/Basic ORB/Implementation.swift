@@ -15,7 +15,7 @@ public class Implementation:ObjectStub
         super.init(host:"",port:0,objectId:UUID().uuidString,interfaceId:"CORBA::Object")
         }
     
-    public required override init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
+    public required init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
         {
         super.init(host:host,port:port,objectId:objectId,interfaceId:interfaceId)
         }

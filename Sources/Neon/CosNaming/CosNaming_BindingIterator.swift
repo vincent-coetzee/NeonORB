@@ -6,10 +6,10 @@ public protocol CosNaming_BindingIterator:CORBA_Object
     {
     
     
+    func next_n(how_many: UInt32,binding_list:inout CosNaming_BindingList) throws -> Bool
+    
     func destroy() throws -> Void
     
     func next_one(b:inout CosNaming_Binding) throws -> Bool
-    
-    func next_n(how_many: UInt32,binding_list:inout CosNaming_BindingList) throws -> Bool
     
     }

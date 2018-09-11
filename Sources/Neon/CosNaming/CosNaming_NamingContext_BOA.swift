@@ -23,34 +23,34 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
             {
             
             
-            case "list":
-                return(true)
-            
-            case "resolve":
-                return(true)
-            
-            case "new_context":
-                return(true)
-            
-            case "unbind":
+            case "rebind_context":
                 return(true)
             
             case "bind_new_context":
                 return(true)
             
-            case "destroy":
+            case "bind":
                 return(true)
             
-            case "rebind_context":
+            case "unbind":
                 return(true)
             
             case "rebind":
                 return(true)
             
-            case "bind":
+            case "list":
+                return(true)
+            
+            case "destroy":
                 return(true)
             
             case "bind_context":
+                return(true)
+            
+            case "new_context":
+                return(true)
+            
+            case "resolve":
                 return(true)
             
             default:
@@ -65,6 +65,115 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
         switch(operation)
             {
             
+            
+            case "rebind_context":
+                
+                
+                    
+                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
+                    
+                
+                
+                
+                    
+                    let naming_context = unmarshaller.unmarshal(CosNaming_NamingContext.self)
+                    
+                
+                
+                
+                let invocation_result:Void = try instance.rebind_context(n:n,naming_context:naming_context)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "bind_new_context":
+                
+                
+                    
+                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.bind_new_context(n:n)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "bind":
+                
+                
+                    
+                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
+                    
+                
+                
+                
+                    
+                    let object = unmarshaller.unmarshal(CORBA_Object.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.bind(n:n,object:object)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "unbind":
+                
+                
+                    
+                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.unbind(n:n)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "rebind":
+                
+                
+                    
+                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
+                    
+                
+                
+                
+                    
+                    let object = unmarshaller.unmarshal(CORBA_Object.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.rebind(n:n,object:object)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                
+                
+                
+                
+                marshaller.marshal(invocation_result)
             
             case "list":
                 
@@ -107,147 +216,12 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 
                 marshaller.marshal(invocation_result)
             
-            case "resolve":
-                
-                
-                    
-                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.resolve(n:n)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                marshaller.marshal(invocation_result)
-            
-            case "new_context":
-                
-                
-                let invocation_result = try instance.new_context()
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                marshaller.marshal(invocation_result)
-            
-            case "unbind":
-                
-                
-                    
-                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.unbind(n:n)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                marshaller.marshal(invocation_result)
-            
-            case "bind_new_context":
-                
-                
-                    
-                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.bind_new_context(n:n)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                marshaller.marshal(invocation_result)
-            
             case "destroy":
                 
                 
                 let invocation_result = try instance.destroy()
                 
                 marshaller.marshal(CORBA.ResultKind.success)
-                
-                marshaller.marshal(invocation_result)
-            
-            case "rebind_context":
-                
-                
-                    
-                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
-                    
-                
-                
-                
-                    
-                    let naming_context = unmarshaller.unmarshal(CosNaming_NamingContext.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.rebind_context(n:n,naming_context:naming_context)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                
-                
-                marshaller.marshal(invocation_result)
-            
-            case "rebind":
-                
-                
-                    
-                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
-                    
-                
-                
-                
-                    
-                    let object = unmarshaller.unmarshal(CORBA_Object.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.rebind(n:n,object:object)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                
-                
-                marshaller.marshal(invocation_result)
-            
-            case "bind":
-                
-                
-                    
-                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
-                    
-                
-                
-                
-                    
-                    let object = unmarshaller.unmarshal(CORBA_Object.self)
-                    
-                
-                
-                
-                let invocation_result = try instance.bind(n:n,object:object)
-                
-                marshaller.marshal(CORBA.ResultKind.success)
-                
-                
-                
-                
                 
                 marshaller.marshal(invocation_result)
             
@@ -271,6 +245,32 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 marshaller.marshal(CORBA.ResultKind.success)
                 
                 
+                
+                
+                
+                marshaller.marshal(invocation_result)
+            
+            case "new_context":
+                
+                
+                let invocation_result = try instance.new_context()
+                
+                marshaller.marshal(CORBA.ResultKind.success)
+                
+                marshaller.marshal(invocation_result)
+            
+            case "resolve":
+                
+                
+                    
+                    let n = unmarshaller.unmarshal(CosNaming_Name.self)
+                    
+                
+                
+                
+                let invocation_result = try instance.resolve(n:n)
+                
+                marshaller.marshal(CORBA.ResultKind.success)
                 
                 
                 
