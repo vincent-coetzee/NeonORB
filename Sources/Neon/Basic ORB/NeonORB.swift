@@ -10,7 +10,7 @@ import Foundation
 import Socket
 import LoggerAPI
 
-public class NeonORB:ORB,CORBA_ORB
+public class NeonORB:Implementation,ORB,CORBA_ORB
     {
     public static var shared:ORB!
     
@@ -18,39 +18,53 @@ public class NeonORB:ORB,CORBA_ORB
     public let queue:DispatchQueue
     private var namingServiceServerSocket:Socket!
     
-    public let port:Int
-    public var host:String
-    
     private var registeredBOAs:[String:BasicObjectAdaptor] = [:]
     private var registeredImplementations:[String:Implementation] = [:]
     private var rootContextImplementation:CosNaming_NamingContext_Implementation!
     private var rootContextReference:CosNaming_NamingContext!
     private var remoteRootContextFound = false
     
-    public var namingService:CosNaming_NamingContext = CosNaming_NamingContext_Interface(host:"",port:0,objectId:"",interfaceId:InterfaceId(""))
-    
     private var socketPool = SocketPool()
+    private var savedNamingService:CosNaming_NamingContext?
     
-    public init() throws
+    public override init()
         {
+        queue = DispatchQueue(label:"com.macsemantics.coral.orb",attributes: .concurrent)
+        super.init()
+        self.interfaceId = "CORBA::ORB"
+        self.objectId = "0000-0000-0000-0000"
         Log.verbose("Neon ORB Version \(Neon.kVersion)")
         let (address,_) = IPV4Address.ethernetAddresses()[0]
         self.host = address.string
         port = Int.random(in: 10240..<65534)
         Log.verbose("Init ORB")
-        queue = DispatchQueue(label:"com.macsemantics.coral.orb",attributes: .concurrent)
-        primarySocket = try Socket.create(family: .inet, type: .stream, proto: .tcp)
-        Log.verbose("Created primary socket")
-        try primarySocket.listen(on: port)
-        namingServiceServerSocket = try Socket.create(family: .inet, type: .datagram, proto: .udp)
-        Log.verbose("Created naming service socket")
-        CORBA.orb = self
-        try searchForNamingService()
-        try initORBService()
-        if !remoteRootContextFound
+        do
             {
-            try initNamingService()
+            primarySocket = try Socket.create(family: .inet, type: .stream, proto: .tcp)
+            Log.verbose("Created primary socket")
+            try primarySocket.listen(on: port)
+            namingServiceServerSocket = try Socket.create(family: .inet, type: .datagram, proto: .udp)
+            Log.verbose("Created naming service socket")
+            CORBA.orb = self
+            try searchForNamingService()
+            try initORBService()
+            if !remoteRootContextFound
+                {
+                try initNamingService()
+                }
+            registerImplementation(self, forObjectId: "0000-0000-0000-0000")
+            registerBOA(CORBA_ORB_BOA.self, forInterfaceId: "CORBA::ORB")
             }
+        catch
+            {
+            Log.verbose("Fatal error initializing ORB")
+            fatalError()
+            }
+        }
+    
+    public required init(host: String, port: Int, objectId: String, interfaceId: InterfaceId)
+        {
+        fatalError("Should not be called on ORB")
         }
     
     private func initORBService() throws
@@ -166,18 +180,7 @@ public class NeonORB:ORB,CORBA_ORB
     //
     // CORBA_ORB conformance
     //
-
-    public var objectId:String
-        {
-        return("0000-0000-0000-0000")
-        }
-    
-    public var interfaceId:InterfaceId
-        {
-        return("CORBA::ORB")
-        }
-    
-    public func narrow<T:ObjectStub>(_ type:T.Type) throws -> T
+    public override func narrow<T:ObjectStub>(_ type:T.Type) throws -> T
         {
         throw(CORBA.ORBError.invalidTypes)
         }
@@ -217,10 +220,6 @@ public class NeonORB:ORB,CORBA_ORB
             guard let object = unmarshaller.unmarshal(ObjectStub.self) else
                 {
                 throw(CORBA.ORBError.badObjectReference)
-                }
-            if object.objectId == Neon.kORBObjectId
-                {
-                return(try processORBRequest(unmarshaller:unmarshaller))
                 }
             guard let boa = registeredBOAs[object.interfaceId.rawValue] else
                 {
@@ -265,6 +264,11 @@ public class NeonORB:ORB,CORBA_ORB
         {
         }
     
+    public func namingService() -> CosNaming_NamingContext
+        {
+        return(savedNamingService!)
+        }
+    
     private func searchForNamingService() throws
         {
         let waitBetweenTriesInSeconds:TimeInterval = 2
@@ -302,7 +306,7 @@ public class NeonORB:ORB,CORBA_ORB
                         throw(CORBA.ORBError.badMessage)
                         }
                     rootContextReference = unmarshaller.unmarshal(CosNaming_NamingContext.self)
-                    namingService = rootContextReference
+                    savedNamingService = rootContextReference
                     remoteRootContextFound = true
                     namingServiceNotFound = false
                     namingServiceSearchSocket.close()
@@ -331,11 +335,11 @@ public class NeonORB:ORB,CORBA_ORB
             {
             throw(CORBA.ORBError.ethernetAddressNotFound)
             }
-        rootContextImplementation = CosNaming_NamingContext_Implementation.rootContext
-        rootContextImplementation.port = port
-        rootContextImplementation.host = address.string
-        rootContextImplementation.objectId = "0000-0000-0000-1111"
-        namingService = rootContextImplementation
+        let implementation = CosNaming_NamingContext_Implementation.rootContext
+        implementation.port = port
+        implementation.host = address.string
+        implementation.objectId = "0000-0000-0000-1111"
+        savedNamingService = implementation
         Log.verbose("Created root context")
         self.resetEntities()
         self.registerBOA(CosNaming_NamingContext_BOA.self, forInterfaceId: "CosNaming::NamingContext")

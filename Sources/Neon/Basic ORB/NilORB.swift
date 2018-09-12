@@ -10,7 +10,7 @@ import Foundation
 
 public struct NilORB:ORB
     {
-    public var namingService:CosNaming_NamingContext
+    public func namingService() -> CosNaming_NamingContext
         {
         return(CosNaming_NamingContext_Implementation())
         }

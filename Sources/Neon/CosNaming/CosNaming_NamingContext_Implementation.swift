@@ -130,6 +130,10 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         let first = n[0].id
         if n.count == 1
             {
+            if entries[first] != nil
+                {
+                throw(CosNaming_NamingContext_AlreadyBound())
+                }
             entries[first] = ContextHolder(context:naming_context)
             let actualContext = (CORBA.orb as! NeonORB).materialize(object:naming_context) as! CosNaming_NamingContext_Implementation
             actualContext.parentContext = self
@@ -172,6 +176,10 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         let first = n[0].id
         if n.count == 1
             {
+            if entries[first] == nil
+                {
+                throw(CosNaming_NamingContext_NotFound(why: .missing_node, rest_of_name: n))
+                }
             entries[first] = nil
             return
             }
@@ -190,6 +198,10 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
     // NotFound,CannotProceed,InvalidName,AlreadyBound
     public func bind(n: CosNaming_Name,object: CORBA_Object?) throws -> Void
         {
+        if n.count == 0
+            {
+            throw(CosNaming_NamingContext_InvalidName())
+            }
         guard let object = object else
             {
             Log.error("Object passed into bind is nil \(n)")
@@ -203,6 +215,10 @@ public class CosNaming_NamingContext_Implementation:Implementation,CosNaming_Nam
         let first = n[0].id
         if n.count == 1
             {
+            if entries[first] != nil
+                {
+                throw(CosNaming_NamingContext_AlreadyBound())
+                }
             entries[first] = ObjectHolder(object:object)
             return
             }

@@ -12,7 +12,7 @@ public protocol ORB
     {
     var host:String { get }
     var port:Int { get }
-    var namingService:CosNaming_NamingContext { get }
+    func namingService() -> CosNaming_NamingContext
     func registerBOA(_ boa:BasicObjectAdaptor.Type,forInterfaceId:String)
     func registerImplementation(_ object:Implementation,forObjectId:String)
     func deregisterImplementation(_ object:Implementation)
