@@ -127,6 +127,10 @@ public class NeonORB:ORB,CORBA_ORB
             {
             throw(CORBA.ORBError.badRequestSize)
             }
+        guard unmarshaller.unmarshal(Int32.self) == CORBA.kNeonMagicNumber else
+            {
+            throw(CORBA.ORBError.notNeonMessage)
+            }
         let kind = unmarshaller.unmarshal(CORBA.MessageKind.self)
         switch(kind)
             {
