@@ -335,11 +335,11 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
             {
             throw(CORBA.ORBError.ethernetAddressNotFound)
             }
-        let implementation = CosNaming_NamingContext_Implementation.rootContext
-        implementation.port = port
-        implementation.host = address.string
-        implementation.objectId = "0000-0000-0000-1111"
-        savedNamingService = implementation
+        rootContextImplementation = CosNaming_NamingContext_Implementation.rootContext
+        rootContextImplementation.port = port
+        rootContextImplementation.host = address.string
+        rootContextImplementation.objectId = "0000-0000-0000-1111"
+        savedNamingService = rootContextImplementation
         Log.verbose("Created root context")
         self.resetEntities()
         self.registerBOA(CosNaming_NamingContext_BOA.self, forInterfaceId: "CosNaming::NamingContext")
