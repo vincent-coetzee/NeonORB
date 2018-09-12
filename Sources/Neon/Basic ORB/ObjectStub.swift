@@ -22,7 +22,12 @@ open class ObjectStub:CORBA_Object,Equatable
         return("CORBA::Object")
         }
     
-    open static func ==(lhs:ObjectStub,rhs:ObjectStub) -> Bool
+    public class func null() -> Self
+        {
+        return(self.init(host:"",port:0,objectId:"",interfaceId:""))
+        }
+    
+    public static func ==(lhs:ObjectStub,rhs:ObjectStub) -> Bool
         {
         guard lhs.host == rhs.host else 
             {
