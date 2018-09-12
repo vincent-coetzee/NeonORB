@@ -32,6 +32,7 @@ open class Invocation
     public func set(messageKind:CORBA.MessageKind,operationId:String)
         {
         _marshaller = IIOPMarshaller(bufferSize: CORBA.kIIOPBufferSize)
+        _marshaller.marshal(CORBA.kNeonMagicNumber)
         _marshaller.marshal(messageKind)
         _marshaller.marshal(object)
         _marshaller.marshal(operationId)
@@ -40,9 +41,9 @@ open class Invocation
     public func invoke(expect:CORBA.MessageKind) throws
         {
         let bytes = _marshaller.bytes
+        var incoming = Data(capacity: CORBA.kIIOPBufferSize)
+        try socket.setReadTimeout(value: CORBA.kInvocationTimeoutInSeconds * 1000)
         try socket.write(from: bytes)
-        try socket.setReadTimeout(value: 10000)
-        var incoming = Data(capacity: 10240)
         let bytesRead = try socket.read(into: &incoming)
         SocketPool.shared.add(socket:socket)
         if bytesRead == 0
@@ -54,6 +55,10 @@ open class Invocation
         if dataLength != bytesRead
             {
             throw(CORBA.ORBError.badRequestSize)
+            }
+        if _unmarshaller.unmarshal(Int32.self) != CORBA.kNeonMagicNumber
+            {
+            throw(CORBA.ORBError.notNeonMessage)
             }
         if _unmarshaller.unmarshal(CORBA.MessageKind.self) != expect
             {

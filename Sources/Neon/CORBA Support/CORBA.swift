@@ -11,6 +11,10 @@ import Foundation
 public struct CORBA
     {
     internal static let kIIOPBufferSize = 1024 * 128
+    internal static let kInvocationTimeoutInSeconds:UInt = 30
+    internal static let kInterbroadcastWaitInSeconds = 1
+    internal static let kBroadcastRetryCount = 15
+    internal static let kNeonMagicNumber = 0xBEADF00D
     
     public enum MessageKind:Int,Equatable
         {
@@ -75,6 +79,7 @@ public struct CORBA
         case badMessage
         case invocationTimeout
         case invalidTypes
+        case notNeonMessage
         }
     
     public struct IDLAny
@@ -102,6 +107,8 @@ public struct CORBA
         }
     
     public static var orb:ORB = NilORB()
+    
+    public typealias Identifier = String
     }
 
 extension Array where Element == String
