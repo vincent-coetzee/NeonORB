@@ -27,6 +27,7 @@ open class IIOPUnmarshaller:IIOPBuffer
         {
         let int = buffer.load(fromByteOffset: offset, as: UInt32.self)
         offset += MemoryLayout<UInt32>.size
+        align(to: Int.self)
         return(int)
         }
     
@@ -43,21 +44,21 @@ open class IIOPUnmarshaller:IIOPBuffer
         offset += MemoryLayout<Float>.size
         return(int)
         }
-        
+    
     public func unmarshal(_ type:Double.Type) -> Double
         {
         let int = buffer.load(fromByteOffset: offset, as: Double.self)
         offset += MemoryLayout<Double>.size
         return(int)
         }
-        
+    
     public func unmarshal(_ type:Bool.Type) -> Bool
         {
         let int = buffer.load(fromByteOffset: offset, as: Bool.self)
         offset += MemoryLayout<Bool>.size
         return(int)
         }
-        
+    
     public func unmarshal(_ type:String.Type) -> String
         {
         align(to: Int.self)
@@ -114,7 +115,7 @@ open class IIOPUnmarshaller:IIOPBuffer
         let interfaceId = self.unmarshal(String.self)
         return(ObjectStub(host:host,port:port,objectId:objectId,interfaceId:InterfaceId(interfaceId)))
         }
-        
+    
     public func unmarshal(_ type:CORBA.TypeCode.Type) -> CORBA.TypeCode
         {
         return(CORBA.TypeCode(rawValue: unmarshal(Int.self))!)

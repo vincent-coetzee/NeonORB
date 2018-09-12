@@ -91,7 +91,7 @@ public class NeonORB:ORB,CORBA_ORB
         let implementation = registeredImplementations[id]
         return(implementation)
         }
-        
+    
     private func service(clientConnection:Socket)
         {
         while true
@@ -127,7 +127,7 @@ public class NeonORB:ORB,CORBA_ORB
             {
             throw(CORBA.ORBError.badRequestSize)
             }
-        guard unmarshaller.unmarshal(Int32.self) == CORBA.kNeonMagicNumber else
+        guard unmarshaller.unmarshal(UInt32.self) == CORBA.kNeonMagicNumber else
             {
             throw(CORBA.ORBError.notNeonMessage)
             }
@@ -208,7 +208,7 @@ public class NeonORB:ORB,CORBA_ORB
         {
         return(Implementation())
         }
-        
+    
     private func processRequest(unmarshaller:IIOPUnmarshaller) throws -> Data
         {
         let marshaller = IIOPMarshaller(bufferSize:Neon.kRequestBufferSizeInBytes)
@@ -380,7 +380,7 @@ public class NeonORB:ORB,CORBA_ORB
         {
         return(registeredBOAs[id])
         }
-        
+    
     public func registerBOA(_ boa:BasicObjectAdaptor.Type,forInterfaceId id:String)
         {
         registeredBOAs[id] = boa.init()

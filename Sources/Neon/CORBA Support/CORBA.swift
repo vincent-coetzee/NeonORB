@@ -14,7 +14,7 @@ public struct CORBA
     internal static let kInvocationTimeoutInSeconds:UInt = 30
     internal static let kInterbroadcastWaitInSeconds = 1
     internal static let kBroadcastRetryCount = 15
-    internal static let kNeonMagicNumber = 0xBEADF00D
+    internal static let kNeonMagicNumber:UInt32 = 0xBEADF00D
     
     public enum MessageKind:Int,Equatable
         {
@@ -99,7 +99,7 @@ public struct CORBA
         public init()
             {
             }
-            
+        
         open func marshal(on:IIOPMarshaller)
             {
             fatalError()
@@ -117,7 +117,7 @@ extension Array where Element == String
         {
         return(self.map{CosNaming_NameComponent(id:$0,kind:"")})
         }
-        
+    
     public func appending(_ element:Element) -> Array<Element>
         {
         var newArray = self

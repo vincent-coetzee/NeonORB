@@ -50,6 +50,7 @@ open class IIOPMarshaller:IIOPBuffer
         {
         buffer.storeBytes(of: int, toByteOffset: offset, as: UInt32.self)
         offset += MemoryLayout<UInt32>.size
+        align(to: Int.self)
         }
     
     public func marshal(_ int:Int32)
@@ -63,19 +64,19 @@ open class IIOPMarshaller:IIOPBuffer
         buffer.storeBytes(of: float, toByteOffset: offset, as: Float.self)
         offset += MemoryLayout<Float>.size
         }
-        
+    
     public func marshal(_ double:Double)
         {
         buffer.storeBytes(of: double, toByteOffset: offset, as: Double.self)
         offset += MemoryLayout<Double>.size
         }
-        
+    
     public func marshal(_ boolean:Bool)
         {
         buffer.storeBytes(of: boolean, toByteOffset: offset, as: Bool.self)
         offset += MemoryLayout<Bool>.size
         }
-        
+    
     public func marshal(_ string:String)
         {
         let scalars = string.unicodeScalars
