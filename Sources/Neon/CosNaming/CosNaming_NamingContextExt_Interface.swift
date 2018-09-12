@@ -12,7 +12,7 @@ public class CosNaming_NamingContextExt_Interface:CosNaming_NamingContext_Interf
 
     
 
-    public required override init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
+    public required init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
         {
         super.init(host:host,port:port,objectId:objectId,interfaceId:interfaceId)
         }
