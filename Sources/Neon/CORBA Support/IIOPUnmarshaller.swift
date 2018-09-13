@@ -23,6 +23,14 @@ open class IIOPUnmarshaller:IIOPBuffer
         return(int)
         }
     
+    public func unmarshal(_ type:UInt8.Type) -> UInt8
+        {
+        let int = buffer.load(fromByteOffset: offset, as: UInt8.self)
+        offset += MemoryLayout<UInt8>.size
+        align(to: Int.self)
+        return(int)
+        }
+    
     public func unmarshal(_ type:UInt32.Type) -> UInt32
         {
         let int = buffer.load(fromByteOffset: offset, as: UInt32.self)
@@ -35,6 +43,21 @@ open class IIOPUnmarshaller:IIOPBuffer
         {
         let int = buffer.load(fromByteOffset: offset, as: Int32.self)
         offset += MemoryLayout<Int32>.size
+        return(int)
+        }
+    
+    public func unmarshal(_ type:UInt64.Type) -> UInt64
+        {
+        let int = buffer.load(fromByteOffset: offset, as: UInt64.self)
+        offset += MemoryLayout<UInt64>.size
+        align(to: Int.self)
+        return(int)
+        }
+    
+    public func unmarshal(_ type:Int64.Type) -> Int64
+        {
+        let int = buffer.load(fromByteOffset: offset, as: Int64.self)
+        offset += MemoryLayout<Int64>.size
         return(int)
         }
     
@@ -101,6 +124,30 @@ open class IIOPUnmarshaller:IIOPBuffer
     public func unmarshal(_ type:CORBA.IDLAny.Type) -> CORBA.IDLAny
         {
         fatalError()
+        }
+    
+    public func unmarshal(_ type:Array<String>.Type) -> Array<String>
+        {
+        let count = self.unmarshal(Int.self)
+        var strings:[String] = []
+        for _ in 0..<count
+            {
+            strings.append(self.unmarshal(String.self))
+            }
+        align(to: Int.self)
+        return(strings)
+        }
+    
+ public func unmarshal(_ type:Array<UInt8>.Type) -> Array<UInt8>
+        {
+        let count = self.unmarshal(Int.self)
+        var strings:[UInt8] = []
+        for _ in 0..<count
+            {
+            strings.append(self.unmarshal(UInt8.self))
+            }
+        align(to: Int.self)
+        return(strings)
         }
     
     public func unmarshal(_ value:CORBA_Object.Protocol) -> CORBA_Object?

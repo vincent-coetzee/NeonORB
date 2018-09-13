@@ -46,6 +46,13 @@ open class IIOPMarshaller:IIOPBuffer
         offset += MemoryLayout<Int>.size
         }
     
+    public func marshal(_ byte:UInt8)
+        {
+        buffer.storeBytes(of: byte, toByteOffset: offset, as: UInt8.self)
+        offset += MemoryLayout<UInt8>.size
+        align(to: Int.self)
+        }
+    
     public func marshal(_ int:UInt32)
         {
         buffer.storeBytes(of: int, toByteOffset: offset, as: UInt32.self)
@@ -57,6 +64,19 @@ open class IIOPMarshaller:IIOPBuffer
         {
         buffer.storeBytes(of: int, toByteOffset: offset, as: Int32.self)
         offset += MemoryLayout<Int32>.size
+        }
+    
+    public func marshal(_ int:UInt64)
+        {
+        buffer.storeBytes(of: int, toByteOffset: offset, as: UInt64.self)
+        offset += MemoryLayout<UInt64>.size
+        align(to: Int.self)
+        }
+    
+    public func marshal(_ int:Int64)
+        {
+        buffer.storeBytes(of: int, toByteOffset: offset, as: Int64.self)
+        offset += MemoryLayout<Int64>.size
         }
     
     public func marshal(_ float:Float)
@@ -108,6 +128,26 @@ open class IIOPMarshaller:IIOPBuffer
     public func marshal(_ value:CORBA.IDLAny)
         {
         fatalError()
+        }
+    
+    public func marshal(_ strings:Array<String>)
+        {
+        self.marshal(strings.count)
+        for string in strings
+            {
+            self.marshal(string)
+            }
+        align(to: Int.self)
+        }
+    
+    public func marshal(_ bytes:Array<UInt8>)
+        {
+        self.marshal(bytes.count)
+        for byte in bytes
+            {
+            self.marshal(byte)
+            }
+        align(to: Int.self)
         }
     
     public func marshal<T>(_ value:T,atOffset:Int? = nil) where T:RawRepresentable,T.RawValue == Int
