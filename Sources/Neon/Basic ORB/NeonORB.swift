@@ -80,6 +80,8 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
                 do
                     {
                     let clientSocket = try self.primarySocket.acceptClientConnection(invokeDelegate: false)
+                    try clientSocket.setBlocking(mode: true)
+                    try clientSocket.setReadTimeout(value: 5000)
                     Log.verbose("Incoming connection request")
                     self.queue.async
                         {
@@ -121,6 +123,15 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
                     try clientConnection.write(from: response)
                     if isEnd
                         {
+                        clientConnection.close()
+                        return
+                        }
+                    }
+                else
+                    {
+                    if !clientConnection.isConnected
+                        {
+                        Log.verbose("Found inactive socket, closing")
                         clientConnection.close()
                         return
                         }
