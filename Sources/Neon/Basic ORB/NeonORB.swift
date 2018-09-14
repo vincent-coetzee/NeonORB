@@ -115,7 +115,11 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
             do
                 {
                 var buffer = Data(capacity: Neon.kRequestBufferSizeInBytes)
+                try clientConnection.setBlocking(mode: true)
+                try clientConnection.setReadTimeout(value: 5000)
+                Log.verbose("Waiting for input from client socket")
                 let bytesRead = try clientConnection.read(into: &buffer)
+                Log.verbose("Received \(bytesRead) from client socket")
                 if bytesRead > 0
                     {
                     var isEnd = false
@@ -129,7 +133,7 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
                     }
                 else
                     {
-                    if !clientConnection.isConnected
+                    if !clientConnection.isConnected || clientConnection.remoteConnectionClosed
                         {
                         Log.verbose("Found inactive socket, closing")
                         clientConnection.close()
