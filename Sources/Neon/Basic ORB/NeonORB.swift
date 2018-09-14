@@ -234,6 +234,7 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
                 {
                 throw(CORBA.ORBError.badObjectReference)
                 }
+            marshaller.marshal(CORBA.kNeonMagicNumber)
             marshaller.marshal(CORBA.MessageKind.response)
             try boa.invoke(operation:operationId,on:server,outof: unmarshaller,into: marshaller)
             Log.verbose("Request \(operationId) was successful")
