@@ -123,7 +123,7 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 
                 
                 
-                let invocation_result = try instance.bind(n:n,object:object)
+                let invocation_result:Void = try instance.bind(n:n,object:object)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 
@@ -142,7 +142,7 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 
                 
                 
-                let invocation_result = try instance.unbind(n:n)
+                let invocation_result:Void = try instance.unbind(n:n)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 
@@ -165,7 +165,7 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 
                 
                 
-                let invocation_result = try instance.rebind(n:n,object:object)
+                let invocation_result:Void = try instance.rebind(n:n,object:object)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 
@@ -200,7 +200,7 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 
                 
                 
-                let invocation_result = try instance.list(how_many:how_many,binding_list:&binding_list,binding_iterator:&binding_iterator)
+                let invocation_result:Void = try instance.list(how_many:how_many,binding_list:&binding_list,binding_iterator:&binding_iterator)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 
@@ -219,7 +219,7 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
             case "destroy":
                 
                 
-                let invocation_result = try instance.destroy()
+                let invocation_result:Void = try instance.destroy()
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 
@@ -240,7 +240,7 @@ public class CosNaming_NamingContext_BOA:BasicObjectAdaptor
                 
                 
                 
-                let invocation_result = try instance.bind_context(n:n,naming_context:naming_context)
+                let invocation_result:Void = try instance.bind_context(n:n,naming_context:naming_context)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 

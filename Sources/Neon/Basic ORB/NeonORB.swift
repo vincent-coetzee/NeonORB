@@ -136,16 +136,7 @@ public class NeonORB:Implementation,ORB,CORBA_ORB
     private func processIncoming(data:Data,isEnd:inout Bool) throws -> Data
         {
         let unmarshaller = IIOPUnmarshaller(bytes:data)
-        let dataSize = unmarshaller.unmarshal(Int.self)
-        guard dataSize == data.count else
-            {
-            throw(CORBA.ORBError.badRequestSize)
-            }
-        guard unmarshaller.unmarshal(UInt32.self) == CORBA.kNeonMagicNumber else
-            {
-            throw(CORBA.ORBError.notNeonMessage)
-            }
-        let kind = unmarshaller.unmarshal(CORBA.MessageKind.self)
+        let kind = try unmarshaller.unmarshalMessageHeader(ofLength: data.count)
         switch(kind)
             {
             case .request:

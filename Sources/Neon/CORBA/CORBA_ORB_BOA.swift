@@ -51,7 +51,7 @@ public class CORBA_ORB_BOA:BasicObjectAdaptor
                 
                 
                 
-                let invocation_result = try instance.destroy(object:object)
+                let invocation_result:Void = try instance.destroy(object:object)
                 
                 marshaller.marshal(CORBA.ResultKind.success)
                 

@@ -15,7 +15,7 @@ public class CORBA_ORB_Implementation:Implementation,CORBA_ORB
         CORBA.orb.registerImplementation(self,forObjectId: self.objectId)
         }
 
-    public required override init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
+    public required init(host:String,port:Int,objectId:String,interfaceId:InterfaceId)
         {
         super.init(host:host,port:port,objectId:objectId,interfaceId:interfaceId)
         }

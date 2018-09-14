@@ -51,16 +51,7 @@ open class Invocation
             throw(CORBA.ORBError.invocationTimeout)
             }
         _unmarshaller = IIOPUnmarshaller(bytes:incoming)
-        let dataLength = _unmarshaller.unmarshal(Int.self)
-        if dataLength != bytesRead
-            {
-            throw(CORBA.ORBError.badRequestSize)
-            }
-        if _unmarshaller.unmarshal(Int32.self) != CORBA.kNeonMagicNumber
-            {
-            throw(CORBA.ORBError.notNeonMessage)
-            }
-        if _unmarshaller.unmarshal(CORBA.MessageKind.self) != expect
+        guard expect == (try _unmarshaller.unmarshalMessageHeader(ofLength: bytesRead)) else
             {
             throw(CORBA.ORBError.badMessage)
             }

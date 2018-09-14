@@ -13,7 +13,8 @@ open class IIOPMarshaller:IIOPBuffer
     public var pingBytes:Data
         {
         self.rewind()
-        self.marshal(MemoryLayout<Int>.size*2)
+        self.marshal(0)
+        self.marshal(CORBA.kNeonMagicNumber)
         self.marshal(CORBA.MessageKind.ping)
         return(self.bytes)
         }
@@ -21,7 +22,8 @@ open class IIOPMarshaller:IIOPBuffer
     public var pongBytes:Data
         {
         self.rewind()
-        self.marshal(MemoryLayout<Int>.size*2)
+        self.marshal(0)
+        self.marshal(CORBA.kNeonMagicNumber)
         self.marshal(CORBA.MessageKind.pong)
         return(self.bytes)
         }

@@ -16,6 +16,19 @@ open class IIOPUnmarshaller:IIOPBuffer
         offset = 0
         }
     
+    public func unmarshalMessageHeader(ofLength incomingLength:Int) throws -> CORBA.MessageKind
+        {
+        guard self.unmarshal(Int.self) == incomingLength else
+            {
+            throw(CORBA.ORBError.badRequestSize)
+            }
+        guard self.unmarshal(UInt32.self) == CORBA.kNeonMagicNumber else
+            {
+            throw(CORBA.ORBError.notNeonMessage)
+            }
+        return(self.unmarshal(CORBA.MessageKind.self))
+        }
+    
     public func unmarshal(_ type:Int.Type) -> Int
         {
         let int = buffer.load(fromByteOffset: offset, as: Int.self)

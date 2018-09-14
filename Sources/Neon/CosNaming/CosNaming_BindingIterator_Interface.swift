@@ -81,8 +81,6 @@ public class CosNaming_BindingIterator_Interface:ObjectStub,CosNaming_BindingIte
     public func destroy() throws -> Void
         {
         let invocation = self.invocation(forOperation: "destroy")
-        let marshaller = invocation.marshaller()
-        
         try invocation.invoke(expect: .response)
         let unmarshaller = invocation.unmarshaller()
         let resultKind = unmarshaller.unmarshal(CORBA.ResultKind.self)
@@ -105,7 +103,6 @@ public class CosNaming_BindingIterator_Interface:ObjectStub,CosNaming_BindingIte
     public func next_one(b:inout CosNaming_Binding) throws -> Bool
         {
         let invocation = self.invocation(forOperation: "next_one")
-        let marshaller = invocation.marshaller()
         
             
         

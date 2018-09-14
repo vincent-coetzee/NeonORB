@@ -353,7 +353,6 @@ public class CosNaming_NamingContext_Interface:ObjectStub,CosNaming_NamingContex
     public func destroy() throws -> Void
         {
         let invocation = self.invocation(forOperation: "destroy")
-        let marshaller = invocation.marshaller()
         
         try invocation.invoke(expect: .response)
         let unmarshaller = invocation.unmarshaller()
@@ -445,7 +444,6 @@ public class CosNaming_NamingContext_Interface:ObjectStub,CosNaming_NamingContex
     public func new_context() throws -> CosNaming_NamingContext?
         {
         let invocation = self.invocation(forOperation: "new_context")
-        let marshaller = invocation.marshaller()
         
         try invocation.invoke(expect: .response)
         let unmarshaller = invocation.unmarshaller()
